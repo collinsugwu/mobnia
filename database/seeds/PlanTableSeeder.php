@@ -12,6 +12,6 @@ class PlanTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Plan::class, 2)->create();
+        \factory(Plan::class, 2)->create();
     }
 }

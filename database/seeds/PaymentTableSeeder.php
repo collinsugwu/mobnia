@@ -14,7 +14,7 @@ class PaymentTableSeeder extends Seeder
     {
         $subscriptions = \App\Models\Subscription::all();
         foreach ($subscriptions as $subscription) {
-            factory(\App\Models\Payment::class)->create([
+            \factory(\App\Models\Payment::class)->create([
                 'subscription_id' => $subscription->id,
                 'payment_ref' => $subscription->reference,
             ]);

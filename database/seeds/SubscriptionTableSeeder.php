@@ -16,13 +16,13 @@ class SubscriptionTableSeeder extends Seeder
     {
         $users = User::get();
         $plans = Plan::get();
-        factory(Subscription::class)->create([
+        \factory(Subscription::class)->create([
             'is_active' => true,
             'user_id' => $users->first()->id,
             'amount' => $plans->last()->amount,
             'plan_id' => $plans->last()->id,
         ]);
-        factory(Subscription::class)->create([
+        \factory(Subscription::class)->create([
             'is_active' => false,
             'user_id' => $users->last()->id,
             'amount' => $plans->first()->amount,
