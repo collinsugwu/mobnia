@@ -1,0 +1,85 @@
+# Composer stores all downloaded packages in the vendor/ directory.
+# Do not use the following if the vendor/ directory is committed to
+# your git repository.
+cache:
+  paths:
+    - vendor
+stages:
+  - build
+  - test
+#  - stage
+#  - deploy
+composer:
+  image: avonnadozie/nginx-laravel-server:2.0
+  stage: build
+  script:
+    - composer install
+  artifacts:
+    paths:
+      - vendor/
+unit_test:
+  image: avonnadozie/nginx-laravel-server:2.0
+  stage: test
+  services:
+    - name: mysql:latest
+      alias: mysql-server
+      entrypoint: ['/entrypoint.sh', '--default-authentication-plugin=mysql_native_password']
+  variables:
+    # Configure Laravel environment
+    APP_ENV: "testing"
+    CACHE_DRIVER: "array"
+    MYSQL_DATABASE: "template"
+    MYSQL_ROOT_PASSWORD: "test-pwd"
+    DB_HOST: "mysql"
+    DB_DATABASE: "template"
+    DB_USERNAME: "root"
+    DB_PASSWORD: "test-pwd"
+  script:
+#    - apk add --update php-sqlite3 php-pdo_sqlite php-xdebug
+    - vendor/bin/phpunit --coverage-text --colors=never --stop-on-failure
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[skip[ _-]test?\]/i
+#stage:
+#  image: bref/dev-env
+#  stage: stage
+#  script:
+#    # Generate docs for APIs
+#    # - php artisan swagger-lume:generate
+#    # Create .env from $ENV_FILE gitlab file
+#    - cp "$DEMO_ENV_FILE" "$(pwd)/.env"
+#    # Deploy
+#    - serverless deploy --stage dev
+#    # Run migration
+#    - vendor/bin/bref cli template-api-dev-artisan -- migrate:fresh --seed --force
+#  #    - vendor/bin/bref cli template-api-prod-artisan --  migrate --force
+#  only:
+#    - master
+#  except:
+#    variables:
+#      - $CI_COMMIT_MESSAGE =~ /\[skip[ _-]deploy?\]/i
+#deployment:
+#  image: bref/dev-env
+#  stage: deploy
+#  when: manual
+#  script:
+#    # Remove docs for APIs
+#    - rm "$(pwd)/storage/api-docs/api-docs.json"
+#    # Create .env from $ENV_FILE gitlab file
+#    - cp "$ENV_FILE" "$(pwd)/.env"
+#    # Remove dev files from composer, leave commented if the app is still under development,
+#    # dev files are needed to run seeders online
+#    - composer install --prefer-dist --optimize-autoloader --no-dev
+#    # Deploy
+#    - serverless deploy --stage prod
+#    # Run migration
+#    #    - vendor/bin/bref cli template-api-prod-artisan --  migrate:fresh --force
+#    - vendor/bin/bref cli template-api-prod-artisan --  migrate --force
+#  environment:
+#    name: production
+#    url: https://template-api.invogeservices.com
+#  only:
+#    - master
+#  except:
+#    variables:
+#      - $CI_COMMIT_MESSAGE =~ /\[skip[ _-]deploy?\]/i

@@ -1,0 +1,50 @@
+service: template-api
+
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: provided
+  # The stage of the application, e.g. dev, prod, staging… ('dev' by default)
+  stage: prod
+  environment:
+    # Laravel environment variables
+    APP_STORAGE: '/tmp'
+    PHP_INI_SCAN_DIR: '/var/task/deploy/php/conf.d'
+    APP_SERVER: 'lambda'
+  tracing:
+    apiGateway: true
+  logs:
+    restApi:
+      level: ERROR
+
+package:
+  exclude:
+    - 'node_modules/**'
+    - 'tests/**'
+
+plugins:
+  - ./vendor/bref/bref
+
+functions:
+  api:
+    handler: public/index.php
+    timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+    layers:
+      - ${bref:layer.php-74-fpm}
+    events:
+      - http: 'ANY /'
+      - http: 'ANY /{proxy+}'
+      - schedule: #Keep lambda alive, avoid cold start. May cost more money
+        rate: rate(50 minutes)
+        input:
+          warmer: true
+  artisan:
+    handler: artisan
+    timeout: 120 # in seconds
+    layers:
+      - ${bref:layer.php-74} # PHP
+      - ${bref:layer.console} # The "console" layer
+    events:
+      - schedule:
+        rate: rate(1 minute)
+        input: '"schedule:run"'

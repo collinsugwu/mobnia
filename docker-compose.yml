@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:
+  template-api:
+    depends_on:
+      - template-db
+    #      - template-queue
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile.dev'
+    container_name: template-api
+    restart: always
+    environment:
+      #      - QUEUE_CONNECTION=redis
+      #      - REDIS_HOST=template-queue
+      #      - REDIS_PORT=6379
+      - DB_HOST=template-db
+      - DB_PORT=3306
+      - DB_DATABASE=template
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+    volumes:
+      - ./:/var/www
+    ports:
+      - 9010:80
+  template-db:
+    image: mysql:5.7
+    restart: always
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./dockerdb.sql:/data/application/init.sql
+      - ./.dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+  template-phpmyadmin:
+    depends_on:
+      - template-db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '9016:80'
+    environment:
+      PMA_HOST: template-db
+      MYSQL_ROOT_PASSWORD: secret
+#  template-queue:
+#    image: redis
+#    restart: always
