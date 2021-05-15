@@ -25,6 +25,7 @@ $router->group(['namespace' => 'Auth'], function () use ($router) {
         $router->post('/reset', 'PasswordController@resetPassword');
     });
 });
+$router->get('/plan', 'SubscriptionController@index');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/logout', 'Auth\AuthController@logout');

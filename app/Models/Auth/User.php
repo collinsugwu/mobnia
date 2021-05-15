@@ -24,7 +24,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'other_names', 'email', 'phone', 'username'
+        'first_name', 'last_name', 'other_names', 'email', 'phone'
     ];
 
     protected $casts = ['last_seen' => 'datetime'];

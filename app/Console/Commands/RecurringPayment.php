@@ -40,16 +40,20 @@ class RecurringPayment extends Command implements ShouldQueue
             $ref = $subscription->reference;
             $payment = $subscription->payments->first();
             if (is_object($payment)) {
-                $paymentFactory = new PaymentFactory();
-                $initializePayment = $paymentFactory->initializePayment($ref, $subscription);
-                $initializePayment->recurringBilling();
+                try {
+                    $paymentFactory = new PaymentFactory();
+                    $initializePayment = $paymentFactory->initializePayment($ref, $subscription);
+                    $initializePayment->recurringBilling();
 
-                //save payment
-                $auth_code = $payment->authorization;
-                $this->savePayment($subscription, $auth_code);
+                    //save payment
+                    $auth_code = $payment->authorization;
+                    $this->savePayment($subscription, $auth_code);
 
-                // activate subscription
-                $this->activateSubscription($subscription);
+                    // activate subscription
+                    $this->activateSubscription($subscription);
+                } catch (\Exception $e) {
+                    $e->getMessage();
+                }
             }
         }
     }

@@ -48,6 +48,9 @@ class PaystackPayment implements verifiableInterface
 
         $auth_code = $payment->authorization;
         $this->paystack->recurringBilling($email, $amount, $auth_code);
+        $verify = $this->paystack->verify($this->ref);
+        abort_unless($verify, Response::HTTP_PAYMENT_REQUIRED);
+        $this->verifyAmount();
     }
 
     /** Verify amount paid

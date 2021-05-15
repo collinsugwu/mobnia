@@ -16,7 +16,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        CleanUpFiles::class,
         RecurringPayment::class,
         DeactivateSubscription::class
     ];
@@ -29,7 +28,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('cleanup:files')->daily();
         $schedule->command('recurring:payment')->daily();
         $schedule->command('deactivate:sub')->daily();
     }

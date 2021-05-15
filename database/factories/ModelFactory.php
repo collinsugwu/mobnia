@@ -21,7 +21,6 @@ $factory->define(App\Models\Auth\User::class, function (Faker\Generator $faker) 
         'phone' => $faker->phoneNumber,
         'password' => \Illuminate\Support\Facades\Hash::make($password ?: 'secret'),
         'api_token' => md5(uniqid()),
-        'username' => $faker->userName,
         'last_seen' => \Illuminate\Support\Carbon::now()
     ];
 });
