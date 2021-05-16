@@ -20,7 +20,6 @@ class AuthTest extends TestCase
         $data['first_name'] = $faker->firstName;
         $data['last_name'] = $faker->lastName;
         $data['other_names'] = $faker->firstName;
-        $data['username'] = $faker->userName;
         $data['email'] = $faker->email;
         $data['phone'] = $faker->phoneNumber;
         $data['password'] = $password = $faker->password;
@@ -31,7 +30,7 @@ class AuthTest extends TestCase
         $this->sendPost('register', $data);
         $this->assertSuccessResponse();
 
-        $user = User::where(['email' => $data['email'], 'username' => $data['username']])->first();
+        $user = User::where(['email' => $data['email']])->first();
         $this->assertNotNull($user);
         Notification::assertSentTo($user, Welcome::class);
     }
@@ -45,13 +44,7 @@ class AuthTest extends TestCase
         /** @var User $user */
         $user = \factory(User::class)->create(['password' => Hash::make($password)]);
         //With email
-        $data['email_or_username'] = $user->email;
-        $data['password'] = $password;
-        $this->sendPost('login', $data);
-        $this->assertSuccessResponse();
-        $this->assertResponseStructure(['data' => ['token', 'user']]);
-        //With username
-        $data['email_or_username'] = $user->username;
+        $data['email'] = $user->email;
         $data['password'] = $password;
         $this->sendPost('login', $data);
         $this->assertSuccessResponse();

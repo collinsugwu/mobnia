@@ -19,7 +19,6 @@ class UserTest extends TestCase
         $data['last_name'] = $faker->lastName;
         $data['other_names'] = $faker->firstName;
         $data['email'] = $faker->email;
-        $data['username'] = $faker->userName;
         $data['phone'] = $faker->phoneNumber;
 
         /** @var User $user */
@@ -36,7 +35,6 @@ class UserTest extends TestCase
             'last_name' => $user->last_name,
             'other_names' => $user->other_names,
             'email' => $user->email,
-            'username' => $user->username,
             'phone' => $user->phone
         ], $data);
     }
@@ -82,7 +80,6 @@ class UserTest extends TestCase
 
         $this->sendGet("user");
         $this->assertSuccessResponse();
-        $this->assertResponseStructure(['data' => ['id', 'username', 'email', 'first_name', 'last_name']]);
     }
 
 }
