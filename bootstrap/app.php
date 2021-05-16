@@ -103,9 +103,8 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(Aws\Laravel\AwsServiceProvider::class);
-$app->register(Illuminate\Notifications\NotificationServiceProvider::class);
 $app->register(\SwaggerLume\ServiceProvider::class);
-
+$app->register(Illuminate\Notifications\NotificationServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
