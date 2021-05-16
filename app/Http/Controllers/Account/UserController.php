@@ -42,37 +42,9 @@ class UserController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="other_names",
-     *         in="query",
-     *         description="Other Name of User",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         name="email",
      *         in="query",
      *         description="Email of User",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="phone",
-     *         in="query",
-     *         description="Phone of the user",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="gender",
-     *         in="query",
-     *         description="Gender of the User",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         in="query",
-     *         description="Address of the User",
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
