@@ -104,8 +104,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->register(Aws\Laravel\AwsServiceProvider::class);
 $app->register(Illuminate\Notifications\NotificationServiceProvider::class);
-if (isset($_ENV['SHOW_DOCS']) && $_ENV['SHOW_DOCS'])
-    $app->register(\SwaggerLume\ServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
