@@ -56,13 +56,6 @@ class UserController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="username",
-     *         in="query",
-     *         description="Username of the user",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         name="phone",
      *         in="query",
      *         description="Phone of the user",
@@ -114,7 +107,6 @@ class UserController extends Controller
             'other_names' => ['string', 'min:1'],
             'phone' => ['required', 'string', 'min:9'],
             'email' => ['required', 'string', 'email', 'max:255', "unique:users,email,{$user->id}"],
-            'username' => ['required', 'string', 'max:255', "regex:$userNameRegex", "unique:users,username,{$user->id}"]
         ]);
 
         $user->fill($request->all());
@@ -226,7 +218,8 @@ class UserController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        return $this->success($user);
+        return $this->success([
+            'user' => $user]);
     }
 
 }

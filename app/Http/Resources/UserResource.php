@@ -22,16 +22,16 @@ class UserResource
      */
     public function loginUser(Request $request)
     {
-        $email_or_username = $request->input('email_or_username');
+        $email= $request->input('email');
         /** @var User $user */
-        $user = User::where(function ($builder) use ($email_or_username) {
-            $builder->where('username', $email_or_username)->orWhere('email', $email_or_username);
+        $user = User::where(function ($builder) use ($email) {
+            $builder->Where('email', $email);
         })->first();
         abort_unless(is_object($user), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
         $verify = Hash::check($request->password, $user->password);
         abort_unless($verify, Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
-        if (!$user->isTokenValid()) {
+        if (is_null($user->api_token) || !$user->isTokenValid()) {
             $user->refreshToken(false);
         }
         $user->last_seen = Carbon::now();

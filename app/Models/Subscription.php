@@ -14,6 +14,9 @@ class Subscription extends Model
     protected $fillable = [
         'reference', 'user_id', 'plan_id', 'is_active', 'amount'];
 
+    protected $visible = [
+        'id','reference', 'user_id', 'plan_id', 'is_active', 'amount'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

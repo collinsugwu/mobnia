@@ -16,7 +16,7 @@ class AuthController extends Controller
      *     summary="Login a user and obtain token",
      *     tags={"Auth"},
      *     @OA\Parameter(
-     *         name="email_or_username",
+     *         name="email",
      *         in="query",
      *         description="User's email or username",
      *         required=true,
@@ -58,7 +58,7 @@ class AuthController extends Controller
     public function login(Request $request, UserResource $userResource)
     {
         $this->validate($request, [
-            'email_or_username' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
             'password' => 'required|string',
         ]);
         //Handles Login
@@ -90,24 +90,10 @@ class AuthController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="other_names",
-     *         in="query",
-     *         description="Other Name of User",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         name="email",
      *         in="query",
      *         description="Email of User",
      *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="username",
-     *         in="query",
-     *         description="Username of the user",
-     *         required=false,
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
@@ -121,20 +107,6 @@ class AuthController extends Controller
      *         name="password_confirmation",
      *         in="query",
      *         description="Password Confirmation",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="phone",
-     *         in="query",
-     *         description="Phone of the user",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *      @OA\Parameter(
-     *         name="terms",
-     *         in="query",
-     *         description="Terms and condition ",
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
@@ -162,18 +134,14 @@ class AuthController extends Controller
             'first_name' => 'required|string|min:1',
             'last_name' => 'required|string|min:1',
             'other_names' => 'string|min:1',
-            'phone' => 'required|string|min:9',
             'email' => 'required|string|email|max:255|unique:users',
-            'username' => 'required|string|max:255', "regex:$userNameRegex", 'unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'terms' => 'accepted',
         ]);
 
         // Handles creating a user
         $user = $userResource->create($request);
         return $this->success([
-            'token' => $user->api_token,
-            'user' => $user
+            'token' => $user->api_token
         ]);
     }
 

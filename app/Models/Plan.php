@@ -10,7 +10,7 @@ class Plan extends Model
         'name', 'amount', 'duration'];
 
     protected $visible = [
-        'name', 'amount', 'duration'
+        'name', 'id', 'amount', 'duration'
     ];
 
     public function subscriptions()
