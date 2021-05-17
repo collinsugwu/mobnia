@@ -414,10 +414,11 @@ class Paystack
                     'data' => ['status' => 'success',
                         'ref' => $faker->md5,
                         'amount' => self::$amount,
-                        'id' => 1],
-                    'authorization' => [
-                        'authorization_code' => 'AUTH_8dfhjjdt'
-                    ]
+                        'id' => 1,
+                        'authorization' => [
+                            'authorization_code' => 'AUTH_8dfhjjdt'
+                        ]
+                    ],
                 ];
                 return true;
             default:

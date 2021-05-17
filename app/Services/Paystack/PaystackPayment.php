@@ -68,7 +68,7 @@ class PaystackPayment implements verifiableInterface
      */
     private function getAuthCode()
     {
-        $this->authorization_code = $this->paystack->response['authorization']['authorization_code'];
+        $this->authorization_code = $this->paystack->response['data']['authorization']['authorization_code'];
     }
 
 }

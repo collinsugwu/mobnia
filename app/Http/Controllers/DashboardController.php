@@ -31,6 +31,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return $this->success(['you don try']);
+        return $this->success('you don try');
     }
 }
