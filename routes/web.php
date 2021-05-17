@@ -37,7 +37,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->delete('/', 'UserController@deleteUser');
         });
     });
-    $router->group(['prefix' => 'plan'], function () use ($router){
+    $router->group(['prefix' => 'plans'], function () use ($router){
         $router->get('/{plan_id}', 'SubscriptionController@choosePlan');
         $router->post('/payments/verify', 'SubscriptionController@verifyPayment');
     });

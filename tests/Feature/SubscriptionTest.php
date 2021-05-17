@@ -29,7 +29,7 @@ class SubscriptionTest extends TestCase
 
         $user = \factory(User::class)->create();
         $this->loginAs($user);
-        $this->sendGet("plan/$plan->id");
+        $this->sendGet("plans/$plan->id");
         $this->assertSuccessResponse();
         $subscription = Subscription::where(['user_id' => $user->id, 'plan_id' => $plan->id])->first();
         $this->assertEquals($subscription, $plan->subscriptions->last());
@@ -39,7 +39,7 @@ class SubscriptionTest extends TestCase
     {
         $plan = Plan::first();
 
-        $this->sendGet("plan/$plan->id");
+        $this->sendGet("plans/$plan->id");
         $this->assertErrorResponse(401);
     }
 
@@ -59,7 +59,7 @@ class SubscriptionTest extends TestCase
             'ref' => $sub->reference,
             'amount' => $sub->amount,
         ];
-        $this->sendPost("plan/payments/verify", $data);
+        $this->sendPost("plans/payments/verify", $data);
         $this->assertSuccessResponse();
         $sub = Subscription::findByReference($sub->reference);
         $this->assertTrue($sub->is_active == true);
