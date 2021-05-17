@@ -1,21 +1,21 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Template API",
+        "title": "Mobnia Test",
         "contact": {
             "name": "Development Team",
-            "email": "dev@invogeservices.com"
+            "email": "collinsuchinaka@gmail.com"
         },
         "version": "1.0"
     },
     "servers": [
         {
-            "url": "https://api.template.com",
+            "url": "https://heroku-mobnia.herokuapp.com/",
             "description": "Live OpenApi Server"
         },
         {
-            "url": "http://localhost:9400",
-            "description": "Local PMAT Server"
+            "url": "http://localhost:8000/",
+            "description": "Local Server"
         }
     ],
     "paths": {
@@ -434,6 +434,46 @@
                         "description": "Error: Bad request. When the user does not exist."
                     }
                 }
+            }
+        },
+        "/dashboard": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Dashboard details",
+                "operationId": "App\\Http\\Controllers\\DashboardController::index",
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Error: Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Expired or No Subscription",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
             }
         },
         "/": {
